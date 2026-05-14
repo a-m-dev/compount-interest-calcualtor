@@ -28,9 +28,14 @@ Each year row expands to reveal the month-by-month total and monthly growth with
 
 - **Inputs**: Initial principal, time horizon (years), annual growth rate, and optional monthly contribution
 - **Final amount card**: Large, prominent display of the projected end value
-- **Stacked area chart**: Year-by-year visualization showing principal, accumulated contributions, and interest earned
-- **Yearly breakdown list**: Tabular view showing the total value at the end of each year
 - **Summary cards**: Total contributions and total interest earned
+- **Tabbed visualization**: Switch between a chart view and a yearly breakdown list
+- **Chart view with four chart types**:
+  - *Area* — stacked area of principal, contributions, and interest
+  - *Line* — multi-line view of the three components
+  - *Bar* — cumulative stacked bars per year
+  - *Waterfall* — year-by-year climb (prior balance → deposits → interest → new balance)
+- **Yearly breakdown list**: End-of-year totals with year-over-year growth between rows; each year row expands into a month-by-month view
 
 ## How the Calculation Works
 
@@ -64,19 +69,30 @@ The yearly breakdown applies the same formulas with `t` set to each individual y
 
 ```
 src/
-├── App.tsx                       # Top-level state and layout
-├── App.css                       # Global styles (card, form, results grid)
+├── main.tsx                          # React entry point
+├── App.tsx                           # Top-level state and layout
+├── App.css                           # Global styles (card, form, results grid)
+├── index.css                         # Base styles
 ├── components/
-│   ├── Form.tsx                  # Inputs and Calculate button
-│   ├── NumberInput.tsx           # Input with thousands-separator formatting
-│   ├── Results.tsx               # Composes the results section
-│   ├── Chart.tsx                 # Recharts stacked area chart
-│   ├── Chart.css                 # Chart-specific styles
-│   ├── YearlyList.tsx            # Year-by-year list of totals
-│   └── YearlyList.css            # List-specific styles
+│   ├── Form.tsx                      # Inputs and Calculate button
+│   ├── FormField.tsx                 # Label + input wrapper
+│   ├── NumberInput.tsx               # Input with thousands-separator formatting
+│   ├── Results.tsx                   # Composes Final Amount, summary, and the tabs
+│   ├── ResultsTabs.tsx               # Tab nav: Chart vs Yearly Breakdown
+│   ├── ResultsTabs.css
+│   ├── YearlyList.tsx                # Year rows with expandable month breakdown
+│   ├── YearlyList.css
+│   └── charts/
+│       ├── Chart.tsx                 # Container with the chart-type toggle
+│       ├── Chart.css
+│       ├── AreaChartView.tsx         # Stacked area chart
+│       ├── LineChartView.tsx         # Multi-line chart
+│       ├── BarChartView.tsx          # Stacked bar chart (cumulative)
+│       ├── WaterfallChartView.tsx    # Year-by-year waterfall bars
+│       └── chartUtils.tsx            # Shared tooltip and axis helpers
 └── utils/
-    ├── calculations.ts           # Compound interest math + yearly breakdown
-    └── formatting.ts             # Swedish locale number/currency formatting
+    ├── calculations.ts               # Compound interest math + monthly/yearly breakdown
+    └── formatting.ts                 # Swedish locale number/currency formatting
 ```
 
 ## Tech Stack
