@@ -9,6 +9,7 @@ import {
 } from 'recharts'
 import { YearlyData } from '../../utils/calculations'
 import { formatCurrency } from '../../utils/formatting'
+import { useCurrency } from '../../contexts/CurrencyContext'
 import { formatAxisNumber, generateYAxisTicks } from './chartUtils'
 
 interface WaterfallChartViewProps {
@@ -38,6 +39,7 @@ const buildWaterfallData = (data: YearlyData[]): WaterfallDatum[] => {
 }
 
 const WaterfallTooltip = (props: any) => {
+  const { currency } = useCurrency()
   const { active, payload } = props
   if (!active || !payload || !payload.length) return null
   const d = payload[0].payload as WaterfallDatum
@@ -45,16 +47,16 @@ const WaterfallTooltip = (props: any) => {
     <div className="chart-tooltip">
       <p className="tooltip-label">Year {d.year}</p>
       <p className="tooltip-item principal">
-        Start: {formatCurrency(d.prior)} kr
+        Start: {formatCurrency(d.prior, currency)}
       </p>
       <p className="tooltip-item contributions">
-        + Deposits: {formatCurrency(d.deposits)} kr
+        + Deposits: {formatCurrency(d.deposits, currency)}
       </p>
       <p className="tooltip-item interest">
-        + Interest: {formatCurrency(d.interest)} kr
+        + Interest: {formatCurrency(d.interest, currency)}
       </p>
       <p className="tooltip-total">
-        End: {formatCurrency(d.total)} kr
+        End: {formatCurrency(d.total, currency)}
       </p>
     </div>
   )

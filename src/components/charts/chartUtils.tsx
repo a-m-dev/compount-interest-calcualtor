@@ -1,5 +1,6 @@
 import { YearlyData } from '../../utils/calculations'
 import { formatCurrency } from '../../utils/formatting'
+import { useCurrency } from '../../contexts/CurrencyContext'
 
 export const formatAxisNumber = (value: number): string => {
   if (value >= 1000000) {
@@ -26,6 +27,7 @@ export const generateYAxisTicks = (data: YearlyData[]): number[] => {
 }
 
 export const ChartTooltip = (props: any) => {
+  const { currency } = useCurrency()
   const { active, payload } = props
   if (!active || !payload || !payload.length) return null
 
@@ -34,16 +36,16 @@ export const ChartTooltip = (props: any) => {
     <div className="chart-tooltip">
       <p className="tooltip-label">Year {data.year}</p>
       <p className="tooltip-item principal">
-        Principal: {formatCurrency(data.principal)} kr
+        Principal: {formatCurrency(data.principal, currency)}
       </p>
       <p className="tooltip-item contributions">
-        Contributions: {formatCurrency(data.contributions)} kr
+        Contributions: {formatCurrency(data.contributions, currency)}
       </p>
       <p className="tooltip-item interest">
-        Interest: {formatCurrency(data.interest)} kr
+        Interest: {formatCurrency(data.interest, currency)}
       </p>
       <p className="tooltip-total">
-        Total: {formatCurrency(data.total)} kr
+        Total: {formatCurrency(data.total, currency)}
       </p>
     </div>
   )

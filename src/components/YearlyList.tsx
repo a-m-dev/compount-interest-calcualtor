@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { formatCurrency } from '../utils/formatting'
 import { YearlyData } from '../utils/calculations'
+import { useCurrency } from '../contexts/CurrencyContext'
 import './YearlyList.css'
 
 interface YearlyListProps {
@@ -13,6 +14,7 @@ const MONTH_LABELS = [
 ]
 
 export default function YearlyList({ data }: YearlyListProps) {
+  const { currency } = useCurrency()
   const [expandedYears, setExpandedYears] = useState<Set<number>>(new Set())
 
   if (data.length === 0) return null
@@ -41,7 +43,7 @@ export default function YearlyList({ data }: YearlyListProps) {
                 <div className="yearly-list-growth">
                   <span className="yearly-list-growth-line" />
                   <span className="yearly-list-growth-label">
-                    +{formatCurrency(growth)} kr
+                    +{formatCurrency(growth, currency)}
                   </span>
                   <span className="yearly-list-growth-line" />
                 </div>
@@ -55,7 +57,7 @@ export default function YearlyList({ data }: YearlyListProps) {
                 <span className="yearly-list-year">Year {yearData.year}</span>
                 <span className="yearly-list-right">
                   <span className="yearly-list-amount">
-                    {formatCurrency(yearData.total)} kr
+                    {formatCurrency(yearData.total, currency)}
                   </span>
                   <span className={`yearly-list-chevron ${isExpanded ? 'is-expanded' : ''}`} aria-hidden="true">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -75,10 +77,10 @@ export default function YearlyList({ data }: YearlyListProps) {
                       <div key={m.month} className="yearly-list-month-row">
                         <span className="yearly-list-month-label">{MONTH_LABELS[m.month - 1]}</span>
                         <span className="yearly-list-month-growth">
-                          +{formatCurrency(monthGrowth)} kr
+                          +{formatCurrency(monthGrowth, currency)}
                         </span>
                         <span className="yearly-list-month-total">
-                          {formatCurrency(m.total)} kr
+                          {formatCurrency(m.total, currency)}
                         </span>
                       </div>
                     )

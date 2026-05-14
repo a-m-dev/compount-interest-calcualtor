@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Form from './components/Form'
 import Results from './components/Results'
+import CurrencySelector from './components/CurrencySelector'
+import { CurrencyProvider } from './contexts/CurrencyContext'
 import { calculateCompoundInterest, CompoundInterestResult } from './utils/calculations'
 import './App.css'
 
@@ -27,26 +29,31 @@ export default function App() {
   }
 
   return (
-    <div className="container">
-      <div className="wrapper">
-        <h1>Compound Interest Calculator</h1>
+    <CurrencyProvider>
+      <div className="container">
+        <div className="wrapper">
+          <div className="page-header">
+            <h1>Compound Interest Calculator</h1>
+            <CurrencySelector />
+          </div>
 
-        <div className="card">
-          <Form
-            principal={principal}
-            years={years}
-            rate={rate}
-            monthlyContribution={monthlyContribution}
-            onPrincipalChange={setPrincipal}
-            onYearsChange={setYears}
-            onRateChange={setRate}
-            onMonthlyContributionChange={setMonthlyContribution}
-            onCalculate={handleCalculate}
-          />
+          <div className="card">
+            <Form
+              principal={principal}
+              years={years}
+              rate={rate}
+              monthlyContribution={monthlyContribution}
+              onPrincipalChange={setPrincipal}
+              onYearsChange={setYears}
+              onRateChange={setRate}
+              onMonthlyContributionChange={setMonthlyContribution}
+              onCalculate={handleCalculate}
+            />
 
-          <Results result={result} />
+            <Results result={result} />
+          </div>
         </div>
       </div>
-    </div>
+    </CurrencyProvider>
   )
 }
