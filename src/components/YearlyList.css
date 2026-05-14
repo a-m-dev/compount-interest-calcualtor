@@ -5,7 +5,6 @@
   border-radius: 12px;
   border: 1px solid #e2e8f0;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
 }
 
 .yearly-list {
@@ -21,9 +20,105 @@
 .yearly-list-item {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   padding: 20px 28px;
   gap: 16px;
+  width: 100%;
+  background: transparent;
+  color: inherit;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background-color 120ms ease;
+}
+
+.yearly-list-item:hover {
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+.yearly-list-item:active {
+  transform: none;
+}
+
+.yearly-list-item:hover .yearly-list-chevron {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.yearly-list-item.is-expanded {
+  background: #f8fafc;
+}
+
+.yearly-list-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.yearly-list-chevron {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 200ms ease, background-color 120ms ease, color 120ms ease;
+  flex-shrink: 0;
+}
+
+.yearly-list-chevron.is-expanded {
+  transform: rotate(180deg);
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.yearly-list-months {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 28px 16px 28px;
+  background: #f8fafc;
+}
+
+.yearly-list-month-row {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 0;
+}
+
+.yearly-list-month-row + .yearly-list-month-row {
+  border-top: 1px solid #f1f5f9;
+}
+
+.yearly-list-month-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.yearly-list-month-growth {
+  font-size: 13px;
+  font-weight: 500;
+  color: #10b981;
+  font-variant-numeric: tabular-nums;
+}
+
+.yearly-list-month-total {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+  font-variant-numeric: tabular-nums;
 }
 
 .yearly-list-amount {

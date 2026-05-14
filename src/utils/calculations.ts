@@ -1,9 +1,15 @@
+export interface MonthlyData {
+  month: number
+  total: number
+}
+
 export interface YearlyData {
   year: number
   principal: number
   contributions: number
   interest: number
   total: number
+  monthlyBreakdown: MonthlyData[]
 }
 
 export interface CompoundInterestResult {
@@ -13,51 +19,82 @@ export interface CompoundInterestResult {
   yearlyBreakdown: YearlyData[]
 }
 
+const calculateMonthlyBreakdown = (
+  year: number,
+  principal: number,
+  monthlyRate: number,
+  monthlyContribution: number
+): MonthlyData[] => {
+  // Accumulator that will hold one entry per month (12 in total) for this year.
+  const monthlyBreakdown: MonthlyData[] = []
+
+  // Walk through the 12 months of the requested year, in order from 1 to 12.
+  for (let monthInYear = 1; monthInYear <= 12; monthInYear++) {
+    // Convert (year, monthInYear) to an absolute month index from time zero.
+    // Example: Year 2, Month 3 → (2 - 1) * 12 + 3 = 15.
+    const globalMonth = (year - 1) * 12 + monthInYear
+
+    // Future Value of the initial principal after `globalMonth` months of compounding.
+    // Formula: FV = P × (1 + r)^n   where r is the monthly rate, n is months elapsed.
+    const principalFV = principal * Math.pow(1 + monthlyRate, globalMonth)
+
+    // Future Value of all recurring monthly deposits made up to this month.
+    // Uses the ordinary-annuity FV formula: FV = PMT × [((1 + r)^n − 1) / r].
+    // Skipped (kept at 0) when there are no recurring deposits, to avoid wasted math.
+    const contributionsFV = monthlyContribution > 0
+      ? monthlyContribution * (Math.pow(1 + monthlyRate, globalMonth) - 1) / monthlyRate
+      : 0
+
+    // Store the month's total = grown principal + grown contributions.
+    // `month` is the 1..12 index within the year (not the global index).
+    monthlyBreakdown.push({
+      month: monthInYear,
+      total: principalFV + contributionsFV,
+    })
+  }
+
+  // Return the populated 12-entry array to the caller.
+  return monthlyBreakdown
+}
+
 const calculateYearlyBreakdown = (
   principal: number,
   years: number,
   monthlyRate: number,
   monthlyContribution: number
 ): YearlyData[] => {
+  // Accumulator that will hold one entry per year for the full horizon.
   const yearlyBreakdown: YearlyData[] = []
 
-  // Loop through each year and calculate the growth at that point in time
+  // Iterate from year 1 up to and including the final year of the horizon.
   for (let year = 1; year <= years; year++) {
-    // Convert year to months for calculation (e.g., year 2 = 24 months)
-    const yearMonths = year * 12
+    // Delegate the monthly math: returns 12 entries with totals at end of each month.
+    const monthlyBreakdown = calculateMonthlyBreakdown(year, principal, monthlyRate, monthlyContribution)
 
-    // Calculate Future Value of the initial principal at this year
-    // Formula: FV = P(1 + r)^n
-    const yearlyPrincipalFV = principal * Math.pow(1 + monthlyRate, yearMonths)
+    // The year-end value is just the last month's total — no need to recompute.
+    const yearlyTotal = monthlyBreakdown[monthlyBreakdown.length - 1].total
 
-    // Calculate Future Value of monthly contributions accumulated up to this year
-    // Uses the annuity formula: FV = PMT × [((1 + r)^n - 1) / r]
-    let yearlyContributionsFV = 0
-    if (monthlyContribution > 0) {
-      yearlyContributionsFV =
-        monthlyContribution * (Math.pow(1 + monthlyRate, yearMonths) - 1) / monthlyRate
-    }
-
-    // Total amount at this year = principal growth + contributions growth
-    const yearlyTotal = yearlyPrincipalFV + yearlyContributionsFV
-
-    // Total amount you've contributed so far (principal + monthly payments × months)
+    // Total raw money put in by the end of this year:
+    // initial principal + (monthly deposit × 12 months × number of years elapsed).
     const yearlyContributions = principal + monthlyContribution * year * 12
 
-    // Interest earned = total value minus total amount you put in
-    // Using Math.max to ensure we don't show negative interest
+    // Interest earned = what the account is worth − what was actually deposited.
     const yearlyInterest = yearlyTotal - yearlyContributions
 
-    // Store this year's data for the chart
+    // Record the year's summary plus the nested monthly breakdown used by the UI.
     yearlyBreakdown.push({
       year,
       principal,
-      contributions: yearlyContributions - principal,  // Only the monthly contributions, not including principal
+      // Only the recurring contributions — principal is reported separately above.
+      contributions: yearlyContributions - principal,
+      // Guard against tiny negative floats when monthlyRate is 0 or near-zero.
       interest: Math.max(0, yearlyInterest),
-      total: yearlyTotal
+      total: yearlyTotal,
+      monthlyBreakdown,
     })
   }
 
+  // Return the array, ordered from year 1 to year N.
   return yearlyBreakdown
 }
 
