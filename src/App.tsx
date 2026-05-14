@@ -1,18 +1,14 @@
 import { useState } from 'react'
 import Form from './components/Form'
 import Results from './components/Results'
-import { calculateCompoundInterest } from './utils/calculations'
+import { calculateCompoundInterest, CompoundInterestResult } from './utils/calculations'
 import './App.css'
-
-interface CompoundInterestResult {
-  finalAmount: number
-  interestEarned: number
-}
 
 export default function App() {
   const [principal, setPrincipal] = useState<string>('')
   const [years, setYears] = useState<string>('')
   const [rate, setRate] = useState<string>('')
+  const [monthlyContribution, setMonthlyContribution] = useState<string>('')
   const [result, setResult] = useState<CompoundInterestResult | null>(null)
 
   const handleCalculate = (): void => {
@@ -21,7 +17,12 @@ export default function App() {
       return
     }
 
-    const calculationResult = calculateCompoundInterest(principal, years, rate)
+    const calculationResult = calculateCompoundInterest(
+      principal,
+      years,
+      rate,
+      monthlyContribution || 0
+    )
     setResult(calculationResult)
   }
 
@@ -35,9 +36,11 @@ export default function App() {
             principal={principal}
             years={years}
             rate={rate}
+            monthlyContribution={monthlyContribution}
             onPrincipalChange={setPrincipal}
             onYearsChange={setYears}
             onRateChange={setRate}
+            onMonthlyContributionChange={setMonthlyContribution}
             onCalculate={handleCalculate}
           />
 

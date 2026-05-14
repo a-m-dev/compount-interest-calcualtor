@@ -1,9 +1,5 @@
 import { formatCurrency } from '../utils/formatting'
-
-interface CompoundInterestResult {
-  finalAmount: number
-  interestEarned: number
-}
+import { CompoundInterestResult } from '../utils/calculations'
 
 interface ResultsProps {
   result: CompoundInterestResult | null
@@ -17,6 +13,10 @@ export default function Results({ result }: ResultsProps) {
       <div className="result-item">
         <span>Final Amount:</span>
         <strong>{formatCurrency(result.finalAmount)} kr</strong>
+      </div>
+      <div className="result-item">
+        <span>Total Contributions:</span>
+        <strong>{formatCurrency(result.totalContributions)} kr</strong>
       </div>
       <div className="result-item">
         <span>Interest Earned:</span>
