@@ -11,8 +11,8 @@ export const formatNumber = (num: string | number): string => {
 export const formatCurrency = (num: number, currency: Currency = 'SEK'): string => {
   const config = CURRENCIES[currency]
   const formatted = new Intl.NumberFormat(config.locale, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: config.decimals,
+    maximumFractionDigits: config.decimals,
   }).format(num)
   return config.symbolPosition === 'prefix'
     ? `${config.symbol}${formatted}`
