@@ -3,18 +3,20 @@ import { YearlyData } from '../../utils/calculations'
 import AreaChartView from './AreaChartView'
 import LineChartView from './LineChartView'
 import BarChartView from './BarChartView'
+import WaterfallChartView from './WaterfallChartView'
 import './Chart.css'
 
 interface ChartProps {
   data: YearlyData[]
 }
 
-type ChartType = 'area' | 'line' | 'bar'
+type ChartType = 'area' | 'line' | 'bar' | 'waterfall'
 
 const CHART_TYPES: { id: ChartType; label: string }[] = [
   { id: 'area', label: 'Area' },
   { id: 'line', label: 'Line' },
   { id: 'bar', label: 'Bar' },
+  { id: 'waterfall', label: 'Waterfall' },
 ]
 
 export default function Chart({ data }: ChartProps) {
@@ -41,6 +43,7 @@ export default function Chart({ data }: ChartProps) {
       {chartType === 'area' && <AreaChartView data={data} />}
       {chartType === 'line' && <LineChartView data={data} />}
       {chartType === 'bar' && <BarChartView data={data} />}
+      {chartType === 'waterfall' && <WaterfallChartView data={data} />}
     </div>
   )
 }
