@@ -2,6 +2,28 @@
 
 A React-based calculator that projects how an investment grows over time with monthly compounding and optional monthly contributions.
 
+**Live demo**: [a-m-dev.github.io/compount-interest-calcualtor](https://a-m-dev.github.io/compount-interest-calcualtor/)
+
+## Screenshots
+
+### Chart view
+
+Four chart types (Area, Line, Bar, Waterfall) visualize how principal, contributions, and interest stack up over the investment horizon.
+
+![Chart view](assets/images/chart-view.png)
+
+### Yearly breakdown
+
+End-of-year totals with year-over-year growth highlights between rows.
+
+![Yearly breakdown](assets/images/yearly-breakdown-view.png)
+
+### Monthly breakdown
+
+Each year row expands to reveal the month-by-month total and monthly growth within that year.
+
+![Monthly breakdown](assets/images/month-breakdown-view.png)
+
 ## Features
 
 - **Inputs**: Initial principal, time horizon (years), annual growth rate, and optional monthly contribution
