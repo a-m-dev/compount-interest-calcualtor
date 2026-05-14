@@ -1,6 +1,24 @@
 import NumberInput from './NumberInput'
 
-export default function Form({ principal, years, rate, onPrincipalChange, onYearsChange, onRateChange, onCalculate }) {
+interface FormProps {
+  principal: string
+  years: string
+  rate: string
+  onPrincipalChange: (value: string) => void
+  onYearsChange: (value: string) => void
+  onRateChange: (value: string) => void
+  onCalculate: () => void
+}
+
+export default function Form({
+  principal,
+  years,
+  rate,
+  onPrincipalChange,
+  onYearsChange,
+  onRateChange,
+  onCalculate,
+}: FormProps) {
   return (
     <>
       <NumberInput

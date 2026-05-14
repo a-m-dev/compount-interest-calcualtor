@@ -1,11 +1,25 @@
 import { formatNumber } from '../utils/formatting'
 
-export default function NumberInput({ id, label, value, onChange, placeholder }) {
+interface NumberInputProps {
+  id: string
+  label: string
+  value: string
+  onChange: (value: string) => void
+  placeholder: string
+}
+
+export default function NumberInput({
+  id,
+  label,
+  value,
+  onChange,
+  placeholder,
+}: NumberInputProps) {
   const displayValue = value ? formatNumber(value.replace(/[\s,]/g, '')) : ''
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.replace(/[\s,]/g, '')
-    if (inputValue === '' || !isNaN(inputValue)) {
+    if (inputValue === '' || !isNaN(Number(inputValue))) {
       onChange(inputValue)
     }
   }

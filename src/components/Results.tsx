@@ -1,6 +1,15 @@
 import { formatCurrency } from '../utils/formatting'
 
-export default function Results({ result }) {
+interface CompoundInterestResult {
+  finalAmount: number
+  interestEarned: number
+}
+
+interface ResultsProps {
+  result: CompoundInterestResult | null
+}
+
+export default function Results({ result }: ResultsProps) {
   if (!result) return null
 
   return (

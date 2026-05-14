@@ -4,13 +4,18 @@ import Results from './components/Results'
 import { calculateCompoundInterest } from './utils/calculations'
 import './App.css'
 
-export default function App() {
-  const [principal, setPrincipal] = useState('')
-  const [years, setYears] = useState('')
-  const [rate, setRate] = useState('')
-  const [result, setResult] = useState(null)
+interface CompoundInterestResult {
+  finalAmount: number
+  interestEarned: number
+}
 
-  const handleCalculate = () => {
+export default function App() {
+  const [principal, setPrincipal] = useState<string>('')
+  const [years, setYears] = useState<string>('')
+  const [rate, setRate] = useState<string>('')
+  const [result, setResult] = useState<CompoundInterestResult | null>(null)
+
+  const handleCalculate = (): void => {
     if (!principal || !years || !rate) {
       alert('Please fill in all fields')
       return
