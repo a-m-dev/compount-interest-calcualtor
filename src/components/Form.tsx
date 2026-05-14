@@ -39,25 +39,25 @@ export default function Form({
           label="Years"
           value={years}
           onChange={onYearsChange}
-          placeholder="Enter years"
+          placeholder="Years"
         />
 
         <NumberInput
           id="rate"
-          label="Annual Growth Rate (%)"
+          label="Annual Growth (%)"
           value={rate}
           onChange={onRateChange}
-          placeholder="Enter rate"
+          placeholder="Rate"
+        />
+
+        <NumberInput
+          id="monthlyContribution"
+          label="Monthly Contribution"
+          value={monthlyContribution}
+          onChange={onMonthlyContributionChange}
+          placeholder="Enter amount (optional)"
         />
       </div>
-
-      <NumberInput
-        id="monthlyContribution"
-        label="Monthly Contribution"
-        value={monthlyContribution}
-        onChange={onMonthlyContributionChange}
-        placeholder="Enter amount (optional)"
-      />
 
       <button onClick={onCalculate}>Calculate</button>
     </>
