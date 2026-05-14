@@ -1,7 +1,64 @@
+export interface YearlyData {
+  year: number
+  principal: number
+  contributions: number
+  interest: number
+  total: number
+}
+
 export interface CompoundInterestResult {
   finalAmount: number
   interestEarned: number
   totalContributions: number
+  yearlyBreakdown: YearlyData[]
+}
+
+const calculateYearlyBreakdown = (
+  principal: number,
+  years: number,
+  monthlyRate: number,
+  monthlyContribution: number
+): YearlyData[] => {
+  const yearlyBreakdown: YearlyData[] = []
+
+  // Loop through each year and calculate the growth at that point in time
+  for (let year = 1; year <= years; year++) {
+    // Convert year to months for calculation (e.g., year 2 = 24 months)
+    const yearMonths = year * 12
+
+    // Calculate Future Value of the initial principal at this year
+    // Formula: FV = P(1 + r)^n
+    const yearlyPrincipalFV = principal * Math.pow(1 + monthlyRate, yearMonths)
+
+    // Calculate Future Value of monthly contributions accumulated up to this year
+    // Uses the annuity formula: FV = PMT × [((1 + r)^n - 1) / r]
+    let yearlyContributionsFV = 0
+    if (monthlyContribution > 0) {
+      yearlyContributionsFV =
+        monthlyContribution * (Math.pow(1 + monthlyRate, yearMonths) - 1) / monthlyRate
+    }
+
+    // Total amount at this year = principal growth + contributions growth
+    const yearlyTotal = yearlyPrincipalFV + yearlyContributionsFV
+
+    // Total amount you've contributed so far (principal + monthly payments × months)
+    const yearlyContributions = principal + monthlyContribution * year * 12
+
+    // Interest earned = total value minus total amount you put in
+    // Using Math.max to ensure we don't show negative interest
+    const yearlyInterest = yearlyTotal - yearlyContributions
+
+    // Store this year's data for the chart
+    yearlyBreakdown.push({
+      year,
+      principal,
+      contributions: yearlyContributions - principal,  // Only the monthly contributions, not including principal
+      interest: Math.max(0, yearlyInterest),
+      total: yearlyTotal
+    })
+  }
+
+  return yearlyBreakdown
 }
 
 export const calculateCompoundInterest = (
@@ -41,9 +98,13 @@ export const calculateCompoundInterest = (
   // Interest earned = final amount minus total amount you put in
   const interestEarned = finalAmount - totalContributions
 
+  // Calculate year-by-year breakdown
+  const yearlyBreakdown = calculateYearlyBreakdown(p, t, monthlyRate, m)
+
   return {
     finalAmount,
     interestEarned,
-    totalContributions
+    totalContributions,
+    yearlyBreakdown
   }
 }
