@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Chart from './Chart'
+import Chart from './charts/Chart'
 import YearlyList from './YearlyList'
 import { YearlyData } from '../utils/calculations'
 import './ResultsTabs.css'
