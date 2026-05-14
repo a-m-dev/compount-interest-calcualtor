@@ -1,9 +1,9 @@
-import FormField from './FormField'
+import NumberInput from './NumberInput'
 
 export default function Form({ principal, years, rate, onPrincipalChange, onYearsChange, onRateChange, onCalculate }) {
   return (
     <>
-      <FormField
+      <NumberInput
         id="principal"
         label="Principal Amount"
         value={principal}
@@ -11,7 +11,7 @@ export default function Form({ principal, years, rate, onPrincipalChange, onYear
         placeholder="Enter amount"
       />
 
-      <FormField
+      <NumberInput
         id="years"
         label="Years"
         value={years}
@@ -19,7 +19,7 @@ export default function Form({ principal, years, rate, onPrincipalChange, onYear
         placeholder="Enter years"
       />
 
-      <FormField
+      <NumberInput
         id="rate"
         label="Annual Growth Rate (%)"
         value={rate}
