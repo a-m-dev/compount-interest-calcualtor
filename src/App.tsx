@@ -27,20 +27,22 @@ export default function App() {
 
   return (
     <div className="container">
-      <div className="card">
+      <div className="wrapper">
         <h1>Compound Interest Calculator</h1>
 
-        <Form
-          principal={principal}
-          years={years}
-          rate={rate}
-          onPrincipalChange={setPrincipal}
-          onYearsChange={setYears}
-          onRateChange={setRate}
-          onCalculate={handleCalculate}
-        />
+        <div className="card">
+          <Form
+            principal={principal}
+            years={years}
+            rate={rate}
+            onPrincipalChange={setPrincipal}
+            onYearsChange={setYears}
+            onRateChange={setRate}
+            onCalculate={handleCalculate}
+          />
 
-        <Results result={result} />
+          <Results result={result} />
+        </div>
       </div>
     </div>
   )
