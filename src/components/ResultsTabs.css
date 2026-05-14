@@ -1,0 +1,64 @@
+.results-tabs {
+  margin-top: 32px;
+}
+
+.results-tabs-nav {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.results-tabs-tab {
+  flex: 1;
+  width: auto;
+  margin: 0;
+  padding: 14px 20px;
+  text-align: center;
+  background: transparent;
+  color: #64748b;
+  border: 0;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  box-shadow: none;
+  position: relative;
+  transition: color 120ms ease;
+}
+
+.results-tabs-tab:hover {
+  background: transparent;
+  color: #1e293b;
+  transform: none;
+  box-shadow: none;
+}
+
+.results-tabs-tab:active {
+  transform: none;
+}
+
+.results-tabs-tab.is-active {
+  color: #1e293b;
+}
+
+.results-tabs-tab.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: #1e293b;
+  border-radius: 2px;
+}
+
+.results-tabs-panel {
+  padding-top: 8px;
+}
+
+.results-tabs-panel .yearly-list-container,
+.results-tabs-panel .chart-container {
+  margin-top: 16px;
+}
