@@ -2,7 +2,7 @@
 
 A React-based calculator that projects how an investment grows over time with monthly compounding and optional monthly contributions.
 
-**Live demo**: [a-m-dev.github.io/compount-interest-calcualtor](https://a-m-dev.github.io/compount-interest-calcualtor/)
+**Live demo**: [a-m-dev.github.io/compound-interest-calculator](https://a-m-dev.github.io/compound-interest-calculator/)
 
 ## Screenshots
 
