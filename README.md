@@ -16,17 +16,18 @@ Four chart types (Area, Line, Bar, Waterfall) visualize how principal, contribut
 
 End-of-year totals with year-over-year growth highlights between rows.
 
-![Yearly breakdown](assets/images/yearly-breakdown-view.png)
+![Yearly breakdown](assets/images/year-breakdown.png)
 
 ### Monthly breakdown
 
 Each year row expands to reveal the month-by-month total and monthly growth within that year.
 
-![Monthly breakdown](assets/images/month-breakdown-view.png)
+![Monthly breakdown](assets/images/month-breakdown.png)
 
 ## Features
 
 - **Inputs**: Initial principal, time horizon (years), annual growth rate, and optional monthly contribution
+- **Currency selector**: Switch the display currency across the entire app — supports USD, EUR, JPY, GBP, CHF, CAD, AUD, NZD, SEK, NOK, CNY, and INR (each with its own locale-correct number formatting and symbol position)
 - **Final amount card**: Large, prominent display of the projected end value
 - **Summary cards**: Total contributions and total interest earned
 - **Tabbed visualization**: Switch between a chart view and a yearly breakdown list
@@ -73,10 +74,13 @@ src/
 ├── App.tsx                           # Top-level state and layout
 ├── App.css                           # Global styles (card, form, results grid)
 ├── index.css                         # Base styles
+├── types.ts                          # Shared types (e.g. Currency union)
 ├── components/
 │   ├── Form.tsx                      # Inputs and Calculate button
 │   ├── FormField.tsx                 # Label + input wrapper
 │   ├── NumberInput.tsx               # Input with thousands-separator formatting
+│   ├── CurrencySelector.tsx          # Dropdown for switching display currency
+│   ├── CurrencySelector.css
 │   ├── Results.tsx                   # Composes Final Amount, summary, and the tabs
 │   ├── ResultsTabs.tsx               # Tab nav: Chart vs Yearly Breakdown
 │   ├── ResultsTabs.css
@@ -90,17 +94,22 @@ src/
 │       ├── BarChartView.tsx          # Stacked bar chart (cumulative)
 │       ├── WaterfallChartView.tsx    # Year-by-year waterfall bars
 │       └── chartUtils.tsx            # Shared tooltip and axis helpers
+├── constants/
+│   └── currencies.ts                 # Supported currencies + per-currency formatting config
+├── contexts/
+│   └── CurrencyContext.tsx           # Provider/hook for the selected currency
 └── utils/
     ├── calculations.ts               # Compound interest math + monthly/yearly breakdown
-    └── formatting.ts                 # Swedish locale number/currency formatting
+    └── formatting.ts                 # formatCurrency driven by currencies.ts config
 ```
 
 ## Tech Stack
 
-- **React 18** with **TypeScript**
+- **React 19** with **TypeScript**
 - **Vite** for the dev server and build
-- **Recharts** for the stacked area chart
-- Plain CSS (no UI library) with component-scoped stylesheets for Chart and YearlyList
+- **Recharts** for all four chart variants
+- Plain CSS (no UI library) with component-scoped stylesheets
+- React Context for the global currency selection
 
 ## Running Locally
 
@@ -113,4 +122,4 @@ The dev server runs at `http://localhost:5173`.
 
 ## Formatting Notes
 
-Numbers are displayed using the Swedish locale (`sv-SE`), so thousands are separated by spaces and the decimal point is a comma. Currency values are suffixed with `kr`.
+Number formatting follows the **selected currency's locale**. Each currency in `src/constants/currencies.ts` defines its own locale (e.g. `sv-SE` for SEK, `de-CH` for CHF, `en-IN` for INR), the currency symbol, where the symbol sits (prefix or suffix), and how many fractional digits to show (e.g. JPY uses 0). Adding a new currency is a single entry in that file plus a one-line update to the `Currency` union in `src/types.ts`.
