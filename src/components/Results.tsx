@@ -1,6 +1,7 @@
 import { formatCurrency } from '../utils/formatting'
 import { CompoundInterestResult } from '../utils/calculations'
 import Chart from './Chart'
+import YearlyList from './YearlyList'
 
 interface ResultsProps {
   result: CompoundInterestResult | null
@@ -17,6 +18,7 @@ export default function Results({ result }: ResultsProps) {
           <strong>{formatCurrency(result.finalAmount)} kr</strong>
         </div>
         <Chart data={result.yearlyBreakdown} />
+        <YearlyList data={result.yearlyBreakdown} />
         <div className="result-item">
           <span>Total Contributions:</span>
           <strong>{formatCurrency(result.totalContributions)} kr</strong>
