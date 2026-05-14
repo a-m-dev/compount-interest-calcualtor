@@ -1,0 +1,55 @@
+.chart-container {
+  margin-top: 48px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.chart-tooltip {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip-label {
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  font-size: 14px;
+}
+
+.tooltip-item {
+  margin: 4px 0;
+  font-size: 12px;
+  margin: 0;
+}
+
+.tooltip-item.principal {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.tooltip-item.contributions {
+  color: #6366f1;
+  font-weight: 500;
+}
+
+.tooltip-item.interest {
+  color: #10b981;
+  font-weight: 500;
+}
+
+.tooltip-total {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e2e8f0;
+  font-weight: 700;
+  color: #1a1a1a;
+  font-size: 12px;
+  margin: 0;
+}
